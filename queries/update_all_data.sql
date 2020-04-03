@@ -3,7 +3,7 @@
 DROP table ts;
 CREATE TABLE `covid19`.`ts` (`Country/Region` text, `Lat` text, `Long` text, `Province/State` text, `confirmed` text, `date` text, `deaths` text, `recovered` text);
 
-LOAD DATA INFILE 'C:/Users/Neil/Documents/Projects/COVID-19/ts.csv' 
+LOAD DATA INFILE 'C:/Users/Neil/Documents/Projects/COVID-19/COVID-19/ts.csv' 
 INTO TABLE ts
 FIELDS TERMINATED BY ',' 
 ENCLOSED BY '"'

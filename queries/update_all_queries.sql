@@ -1,3 +1,5 @@
+DROP PROCEDURE covid19_data;
+
 DELIMITER //
  
 CREATE PROCEDURE covid19_data()
@@ -22,7 +24,7 @@ UNION ALL
 		OR STR_TO_DATE(date, "%Y-%m-%d") = (SELECT DATE_SUB(MAX(STR_TO_DATE(date, "%Y-%m-%d")), INTERVAL 1 DAY) FROM ts)) s1
 	WHERE date = (SELECT MAX(STR_TO_DATE(date, "%Y-%m-%d")) FROM ts)
 	GROUP BY 1, 2)) s2
-INTO OUTFILE 'C:/Users/Neil/Documents/Projects/COVID-19/output/region_latest.csv' 
+INTO OUTFILE 'C:/Users/Neil/Documents/Projects/COVID-19/COVID-19/output/region_latest.csv' 
 FIELDS ENCLOSED BY '"' 
 TERMINATED BY ',' 
 ESCAPED BY '"' 
@@ -38,7 +40,7 @@ CASE WHEN `Province/State`="" THEN `Country/Region` ELSE CONCAT(`Province/State`
 lat, `long`, confirmed, deaths, recovered, confirmed - deaths - recovered AS active
 FROM ts
 WHERE STR_TO_DATE(date, "%Y-%m-%d") >= (SELECT DATE_SUB(MAX(STR_TO_DATE(date, "%Y-%m-%d")), INTERVAL 45 DAY) FROM ts))) s1
-INTO OUTFILE 'C:/Users/Neil/Documents/Projects/COVID-19/output/region_province_ts.csv' 
+INTO OUTFILE 'C:/Users/Neil/Documents/Projects/COVID-19/COVID-19/output/region_province_ts.csv' 
 FIELDS ENCLOSED BY '"' 
 TERMINATED BY ',' 
 ESCAPED BY '' 
@@ -64,7 +66,7 @@ ELSE "Rest of World" END AS location
 FROM ts
 GROUP BY 1, 2) s1
 GROUP BY 1, 2) s2
-INTO OUTFILE 'C:/Users/Neil/Documents/Projects/COVID-19/output/ts_chart.csv' 
+INTO OUTFILE 'C:/Users/Neil/Documents/Projects/COVID-19/COVID-19/output/ts_chart.csv' 
 FIELDS ENCLOSED BY '"' 
 TERMINATED BY ',' 
 ESCAPED BY '' 
