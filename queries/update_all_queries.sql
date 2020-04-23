@@ -31,7 +31,7 @@ ESCAPED BY '"'
 LINES TERMINATED BY '\r\n'
 ;
 
-# Region/Province latest
+# Region/Province Time Series (last 45 days)
 SELECT * FROM
 (SELECT "date", "region/province", "lat", "long", "confirmed", "deaths", "recovered", "active"
 UNION ALL
@@ -46,6 +46,23 @@ TERMINATED BY ','
 ESCAPED BY '' 
 LINES TERMINATED BY '\r\n'
 ;
+
+
+# Region/Province Time Series
+SELECT * FROM
+(SELECT "date", "region/province", "lat", "long", "confirmed", "deaths", "recovered", "active"
+UNION ALL
+(SELECT STR_TO_DATE(date, "%Y-%m-%d") AS date,
+CASE WHEN `Province/State`="" THEN `Country/Region` ELSE CONCAT(`Province/State`, ", ", `Country/Region`) END AS `region/province`,
+lat, `long`, confirmed, deaths, recovered, confirmed - deaths - recovered AS active
+FROM ts)) s1
+INTO OUTFILE 'C:/Users/Neil/Documents/Projects/COVID-19/COVID-19/output/region_province_ts_full.csv' 
+FIELDS ENCLOSED BY '"' 
+TERMINATED BY ',' 
+ESCAPED BY '' 
+LINES TERMINATED BY '\r\n'
+;
+
 
 # Time series chart
 SELECT * FROM
